@@ -1,12 +1,9 @@
 package com.moodanalyser;
 
-import java.util.Locale;
-
 public class MoodAnalyser {
 
-    private static String message;
+    private String message;
 
-    //constructor return the message- parameterised conctructor
     public MoodAnalyser(String message) {
         this.message = message;
     }
@@ -14,19 +11,27 @@ public class MoodAnalyser {
     public MoodAnalyser() {
     }
 
-    public String analyseMood(String message) {
+    public String analyseMood(String message) throws MoodAnalysisException {
         this.message = message;
         return analyseMood();
     }
 
-    public String analyseMood() {   // Analysing mood using method analyse mood with parameter passed
+    // Analysing mood using method analyse mood with parameter passed
+    public String analyseMood() throws MoodAnalysisException {
         try {
-            if (message.toLowerCase().contains("sad"))
+            if (message.length() == 0) {
+                throw new MoodAnalysisException(MoodAnalysisException.ExceptionType.EMPTY, "Empty mood");
+            }
+            if (message.toLowerCase().contains("sad")) {
+                System.out.println("SAD");
                 return "SAD";
-            else
+            } else {
+                System.out.println("HAPPY");
                 return "HAPPY";
-        } catch (NullPointerException e) {
-            return "HAPPY";
+            }
+        } catch (NullPointerException exception) {
+            throw new MoodAnalysisException(MoodAnalysisException.ExceptionType.NULL, "Invalid mood");
         }
+
     }
 }
